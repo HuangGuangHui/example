@@ -34,6 +34,10 @@
 	</listener>
 	
 	<!-- *******自定义监听器：定时推送数据****** -->
+	<!-- application初始化参数监听器 -->
+	<listener>  
+	  <listener-class>com.zs.listener.PathListener</listener-class>  
+	</listener>
 	<!-- 
 	<listener>  
 	  <listener-class>com.zs.listener.SendToZmListener</listener-class>  
