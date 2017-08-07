@@ -22,7 +22,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
  * ajax添加头信息
  * */
 $.ajaxSetup({ 
-	headers : {"licence":"${user.licence}"},
+	//headers : {"token":"${user.licence}"},
 	error:function(XMLHttpRequest, textStatus, errorThrown){
 		alert(textStatus+" : "+XMLHttpRequest.status+"  "+errorThrown);
 	}

@@ -22,19 +22,12 @@ public class MailTest {
      */
     // 表示SMTP发送邮件，需要进行身份验证
 	static{
-		/*
-		props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.host", "smtp.qq.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.user", "3554832577@qq.com");// 发件人的账号
-        props.put("mail.password", "[抱歉不能告诉你]");// 访问SMTP服务时需要提供的密码
-        */
         
 		props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", "smtp.exmail.qq.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.user", "itrobot@szexpress.com.cn");// 发件人的账号
-        props.put("mail.password", "[抱歉不能告诉你]");// 访问SMTP服务时需要提供的密码	
+        props.put("mail.password", "[不能告诉你]");// 访问SMTP服务时需要提供的密码	
         
 	}
 	

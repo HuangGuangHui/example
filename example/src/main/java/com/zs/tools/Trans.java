@@ -252,4 +252,7 @@ public class Trans {
 			return 0+":00"+":00";
 		}
 	}
+	public static String strToHtml(String str){
+		return "<pre>"+str+"</pre>";
+	}
 }

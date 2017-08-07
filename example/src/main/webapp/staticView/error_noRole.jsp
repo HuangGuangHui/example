@@ -9,7 +9,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   <head>
     <base href="<%=basePath%>">
     
-    <title>My JSP 'error1.jsp' starting page</title>
+    <title>错误</title>
     
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -26,8 +26,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-  	<h1>错误代码：300</h1>
-	<p>您的权限不够，请联系管理员。</p>
-	<a href="<%=path %>/jsp/part/welcom.jsp" target="right">返回首页</a>
+  	<h1>错误代码：102</h1>
+	<p>您没有被分配角色，请联系管理员。</p>
   </body>
 </html>

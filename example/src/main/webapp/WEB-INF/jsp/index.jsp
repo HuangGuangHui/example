@@ -13,8 +13,37 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 </head>
 <body>
 <jsp:include page="/WEB-INF/jsp/part/common.jsp"/>
+<script type="text/javascript">
+function testCors(){
+	$.ajax({
+		url:"${path}/api/test/testCors",
+		type:"post",
+		data:{a:"你好"},
+		beforeSend: function(request) {
+            request.setRequestHeader("token", "5171437139167");
+        },
+		success:function(data){
+			console.log(data);
+		}
+	});
+}
+function getToken(){
+	$.ajax({
+		url:"${path}/api/login/token",
+		type:"post",
+		data:{usernumber:"admin",userpassword:"123456"},
+		success:function(data){
+			console.log(data);
+		}
+	});
+}
+</script>
 
-	<a class="easyui-linkbutton" iconCls="icon-search" href="<%=path%>/index/goto/index">测试easyui样式和controller是否起作用</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" href="<%=path%>/menu/index">测试easyui样式和controller是否起作用</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="testCors()">测试 跨域、权限、时间轴是否生效</a>
+	<a class="easyui-linkbutton" iconCls="icon-search" onclick="getToken()">获取token</a>
+	
+	
 	
 </body>
 </html>

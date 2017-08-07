@@ -4,10 +4,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/index")
+@RequestMapping("/menu")
 public class IndexCon{
 	
-	@RequestMapping("/goto/index")
+	@RequestMapping("/index")
 	public String gotoIndex(){
 		return "/index";
 	}
