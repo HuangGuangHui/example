@@ -15,6 +15,8 @@ public class Permission {
 
     private String flag;
 
+    private String type;
+
     public BigDecimal getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class Permission {
 
     public void setFlag(String flag) {
         this.flag = flag == null ? null : flag.trim();
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type == null ? null : type.trim();
     }
 }

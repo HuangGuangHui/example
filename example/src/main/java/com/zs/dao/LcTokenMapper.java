@@ -16,6 +16,5 @@ public interface LcTokenMapper {
     int updateByPrimaryKeySelective(LcToken record);
 
     int updateByPrimaryKey(LcToken record);
-    
-    int deleteByUid(BigDecimal uid);
+	int deleteByUid(BigDecimal uid);
 }

@@ -17,6 +17,5 @@ public interface UsersMapper {
     int updateByPrimaryKeySelective(Users record);
 
     int updateByPrimaryKey(Users record);
-	
     Users selectByNumAndPass(@Param("num")String num,@Param("pass")String pass);
 }

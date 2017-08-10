@@ -13,7 +13,20 @@ public class Users {
 
     private BigDecimal rId;
 
-    public BigDecimal getId() {
+    private String isDelete;
+
+    private Role role;
+    
+    
+    public Role getRole() {
+		return role;
+	}
+
+	public void setRole(Role role) {
+		this.role = role;
+	}
+
+	public BigDecimal getId() {
         return id;
     }
 
@@ -51,5 +64,13 @@ public class Users {
 
     public void setrId(BigDecimal rId) {
         this.rId = rId;
+    }
+
+    public String getIsDelete() {
+        return isDelete;
+    }
+
+    public void setIsDelete(String isDelete) {
+        this.isDelete = isDelete == null ? null : isDelete.trim();
     }
 }

@@ -46,5 +46,13 @@ public class MailModel {
 		this.mailContent = mailContent;
 		this.title = title;
 	}
+	public MailModel() {
+		super();
+	}
+	public MailModel(String mailContent, String title) {
+		super();
+		this.mailContent = mailContent;
+		this.title = title;
+	}
 	
 }

@@ -53,7 +53,6 @@ public class Timeline {
     public void setDetaInfo(String detaInfo) {
         this.detaInfo = detaInfo == null ? null : detaInfo.trim();
     }
-
 	public Timeline(BigDecimal pId, BigDecimal uId, String detaInfo) {
 		super();
 		this.pId = pId;
@@ -64,6 +63,4 @@ public class Timeline {
 	public Timeline() {
 		super();
 	}
-    
-    
 }

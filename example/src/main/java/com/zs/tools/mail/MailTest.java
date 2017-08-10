@@ -27,12 +27,17 @@ public class MailTest {
         props.put("mail.smtp.host", "smtp.exmail.qq.com");
         props.put("mail.smtp.port", "587");
         props.put("mail.user", "itrobot@szexpress.com.cn");// 发件人的账号
-        props.put("mail.password", "[不能告诉你]");// 访问SMTP服务时需要提供的密码	
+        props.put("mail.password", "Yd112233");// 访问SMTP服务时需要提供的密码	
         
 	}
 	
 	
 	public static final String IT_ROBOT="itrobot@szexpress.com.cn";
+	public static final String ZS="1217360619@qq.com";
+	public static final String HGH="453668907@qq.com";
+	public static final String CW="yy520014@126.com";
+	public static final String TXY="553051437@qq.com";
+	
 	
 	
 	private static Logger logger = Logger.getLogger(MailTest.class);
@@ -66,16 +71,22 @@ public class MailTest {
         InternetAddress form = new InternetAddress(props.getProperty("mail.user"));
         message.setFrom(form);
         // 设置收件人
-        InternetAddress to = new InternetAddress(mail.getToAddress());
+        InternetAddress to = new InternetAddress(IT_ROBOT);
         message.setRecipient(RecipientType.TO, to);
 
         // 设置抄送
-        InternetAddress cc = new InternetAddress(mail.getCcAddress());
-        message.setRecipient(RecipientType.CC, cc);
+        InternetAddress cc1 = new InternetAddress(IT_ROBOT);
+        InternetAddress cc2 = new InternetAddress(ZS);
+        InternetAddress cc3 = new InternetAddress(HGH);
+        InternetAddress cc4 = new InternetAddress(CW);
+        InternetAddress cc5 = new InternetAddress(TXY);
+        InternetAddress ccs[]=new InternetAddress[]{cc1,cc2,cc3,cc4,cc5};
+        
+        message.setRecipients(RecipientType.CC, ccs);
 
         // 设置密送，其他的收件人不能看到密送的邮件地址
-        InternetAddress bcc = new InternetAddress(mail.getCcAddress());
-        message.setRecipient(RecipientType.CC, bcc);
+        InternetAddress bcc = new InternetAddress(IT_ROBOT);
+        message.setRecipient(RecipientType.BCC, bcc);
         // 设置邮件标题
         message.setSubject(mail.getTitle());
 

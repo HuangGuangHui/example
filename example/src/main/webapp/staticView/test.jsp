@@ -33,14 +33,20 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	    });
         console.log(JSON.stringify(arr));
         var urltmp=$('#urltmp').val();//后面的url
-		$.post(
-			"<%=path %>/"+urltmp,
-			arr,
-			function(data){
+        var t=$("#method").val();
+        var token=$("#token").val();
+		$.ajax({
+			url:"<%=path %>/"+urltmp,
+			type:t,
+			beforeSend: function(request) {
+				request.setRequestHeader("token", token);
+			},
+			data:arr,
+			success:function(data){
 				console.log(data);
 				$("#result").append("<P>"+JSON.stringify(data)+"</p>");
 			}
-		);
+		});
 	}
 	function clearResult(){
 		$("#result").html("");
@@ -49,6 +55,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 本地测试接口<br/>
 URL：只用写controller的url（开头不带/）<input id="urltmp" type="text"/>(写后面的部分,开头不要带/)
+请求方式:
+<select id="method">
+	<option value="GET">GET</option>
+	<option value="POST" selected="selected">POST</option>
+	<option value="PUT">PUT</option>
+	<option value="DELETE">DELETE</option>
+</select>
+token:<input type="text" id="token"/>
 <input type="button" value="添加参数" onclick="addBody()" style="background-color: rgba(230, 255, 0, 0.33);"/>
 <br>
 <div id="http_body" style="border:1px solid rgba(4, 253, 4, 0.43);padding: 10px;">
