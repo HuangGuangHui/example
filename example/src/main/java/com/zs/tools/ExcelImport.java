@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -121,7 +122,7 @@ public class ExcelImport {
 				boolean isNull=true;
 				for (int j = 0; j <cols; j++) {
 					Cell cell = row.getCell(j);
-					String str=parseExcel(cell);
+					String str=parseExcel2(cell);
 					ss[j]=str.trim();
 					if (str==null || str.trim().equals("")) {
 					}else {
@@ -166,6 +167,7 @@ public class ExcelImport {
 					.getJavaDate(value);
 					result = sdf.format(date);
 				} else {
+					/*
 					double value = cell.getNumericCellValue();
 					CellStyle style = cell.getCellStyle();
 					DecimalFormat format = new DecimalFormat();
@@ -175,23 +177,82 @@ public class ExcelImport {
 						format.applyPattern("#");
 					}
 					result = format.format(value);
+					*/
+					cell.setCellType(Cell.CELL_TYPE_STRING);
+					result=cell.getStringCellValue();
 				}
 				break;
-			case HSSFCell.CELL_TYPE_STRING:// String类型
-				result = cell.getRichStringCellValue().toString();
-				break;
-			case HSSFCell.CELL_TYPE_BLANK:
-				result = "";
-				break;
-			case HSSFCell.CELL_TYPE_FORMULA://公式类型
-				result = cell.getNumericCellValue()+"";
-				break;
+//			case HSSFCell.CELL_TYPE_STRING:// String类型
+//				result = cell.getStringCellValue();
+//				break;
+//			case HSSFCell.CELL_TYPE_BLANK:
+//				result = "";
+//				break;
+//			case HSSFCell.CELL_TYPE_FORMULA://公式类型
+//				result = cell.getNumericCellValue()+"";
+//				break;
 			default:
-				result = "";
+				cell.setCellType(Cell.CELL_TYPE_STRING);
+				result=cell.getStringCellValue();
 				break;
 			}
 		}
 		return result;
+	}
+	
+	/**
+	 * 单元格格式自动处理
+	 * 2017-8-23，张顺，新版的各类型处理
+	 * @param cell 单元格
+	 * @return
+	 */
+	private static String parseExcel2(Cell cell) {
+		String temp = "";
+		if (cell==null) {
+			temp="";
+		}else {
+			switch (cell.getCellType()) {  
+            case Cell.CELL_TYPE_STRING:  
+                temp = cell.getStringCellValue().trim();  
+                break;  
+            case Cell.CELL_TYPE_BOOLEAN:  
+                temp = String.valueOf(cell.getBooleanCellValue());  
+                break;  
+            case Cell.CELL_TYPE_FORMULA:  
+                temp = String.valueOf(cell.getNumericCellValue());  
+                break;  
+            case Cell.CELL_TYPE_NUMERIC:
+                if (HSSFDateUtil.isCellDateFormatted(cell)) {  
+                	SimpleDateFormat sdf = null;
+					if (cell.getCellStyle().getDataFormat() == HSSFDataFormat.getBuiltinFormat("yyyy-MM-dd")) {
+						sdf = new SimpleDateFormat("yyyy-MM-dd");
+					} else {// 日期
+						sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+					}
+					Date date = cell.getDateCellValue();
+					temp = sdf.format(date); 
+                }else if (cell.getCellStyle().getDataFormat() == 58) {
+					// 处理自定义日期格式：m月d日(通过判断单元格的格式id解决，id的值是58)
+					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+					double value = cell.getNumericCellValue();
+					Date date = org.apache.poi.ss.usermodel.DateUtil.getJavaDate(value);
+					temp = sdf.format(date);
+				}else {  
+                    temp = new DecimalFormat("#.######").format(cell.getNumericCellValue());  
+                }  
+                break;  
+            case Cell.CELL_TYPE_BLANK:  
+                temp = "";  
+                break;  
+            case Cell.CELL_TYPE_ERROR:  
+                temp = "";  
+                break;  
+            default:  
+                temp = cell.toString().trim();  
+                break;  
+            }  
+		}
+		return temp;
 	}
 
 }
