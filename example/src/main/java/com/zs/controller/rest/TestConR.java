@@ -15,6 +15,7 @@ public class TestConR {
 	/*测试 跨域、权限、时间轴是否生效*/
 	@RequestMapping(value="/testCors",method=RequestMethod.POST)
 	public Result<String> testCors(String a){
+		System.out.println("[a]"+a);
 		return new Result<String>(BaseRestController.SUCCESS, Code.SUCCESS, a);
 	}
 	
