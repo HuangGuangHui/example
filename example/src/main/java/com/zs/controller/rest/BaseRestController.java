@@ -62,7 +62,7 @@ public abstract class BaseRestController<T,ID_TYPE>{
 	 * @param resp
 	 * @return
 	 */
-	public abstract Result<Integer> doAdd(T obj,HttpServletRequest req,HttpServletResponse resp);
+	public abstract Result<String> doAdd(T obj,HttpServletRequest req,HttpServletResponse resp);
 	/**
 	 * 修改一条
 	 * @param obj
@@ -70,7 +70,7 @@ public abstract class BaseRestController<T,ID_TYPE>{
 	 * @param resp
 	 * @return
 	 */
-	public abstract Result<Integer> doUpdate(T obj,HttpServletRequest req,HttpServletResponse resp);
+	public abstract Result<String> doUpdate(T obj,HttpServletRequest req,HttpServletResponse resp);
 	/**
 	 * 假删除一条
 	 * @param id
@@ -78,7 +78,7 @@ public abstract class BaseRestController<T,ID_TYPE>{
 	 * @param resp
 	 * @return
 	 */
-	public abstract Result<Integer> doDeleteFalse(ID_TYPE id, HttpServletRequest req, HttpServletResponse resp);
+	public abstract Result<String> doDeleteFalse(ID_TYPE id, HttpServletRequest req, HttpServletResponse resp);
 	/**
 	 * 真删除一条
 	 * @param id
@@ -86,7 +86,7 @@ public abstract class BaseRestController<T,ID_TYPE>{
 	 * @param resp
 	 * @return
 	 */
-	public abstract Result<Integer> doDeleteTrue(ID_TYPE id, HttpServletRequest req, HttpServletResponse resp);
+	public abstract Result<String> doDeleteTrue(ID_TYPE id, HttpServletRequest req, HttpServletResponse resp);
 	/**
 	 * 导出数据
 	 * @param accept

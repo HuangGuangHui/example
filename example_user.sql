@@ -1,6 +1,6 @@
 ---------------------------------------------------------------
 -- Export file for user EXAMPLE_USER@172.16.1.25:1521/MYORCL --
--- Created by it023 on 2017-08-07, 09:11:37.37 ----------------
+-- Created by it023 on 2017-08-10, 16:34:18.18 ----------------
 ---------------------------------------------------------------
 
 set define off
@@ -45,7 +45,8 @@ create table EXAMPLE_USER.USERS
   usernumber   VARCHAR2(20),
   userpassword VARCHAR2(20),
   name         VARCHAR2(20),
-  r_id         NUMBER
+  r_id         NUMBER,
+  is_delete    VARCHAR2(4) default 0
 )
 tablespace EXAMPLE_DATA
   pctfree 10
@@ -66,6 +67,8 @@ comment on column EXAMPLE_USER.USERS.name
   is '名字';
 comment on column EXAMPLE_USER.USERS.r_id
   is '角色id';
+comment on column EXAMPLE_USER.USERS.is_delete
+  is '是否删除';
 create unique index EXAMPLE_USER.U_NUM on EXAMPLE_USER.USERS (USERNUMBER)
   tablespace EXAMPLE_DATA
   pctfree 10
@@ -161,7 +164,8 @@ create table EXAMPLE_USER.PERMISSION
   method      VARCHAR2(10) not null,
   name        VARCHAR2(40) not null,
   describtion VARCHAR2(4000),
-  flag        VARCHAR2(40) not null
+  flag        VARCHAR2(40) not null,
+  type        VARCHAR2(20)
 )
 tablespace EXAMPLE_DATA
   pctfree 10
@@ -182,6 +186,8 @@ comment on column EXAMPLE_USER.PERMISSION.describtion
   is '描述';
 comment on column EXAMPLE_USER.PERMISSION.flag
   is '用于权限分类，flag相同的为一组';
+comment on column EXAMPLE_USER.PERMISSION.type
+  is '权限类型：菜单、功能';
 create index EXAMPLE_USER.PER_FALG on EXAMPLE_USER.PERMISSION (FLAG)
   tablespace EXAMPLE_DATA
   pctfree 10
@@ -232,6 +238,59 @@ alter table EXAMPLE_USER.PERMISSION
     minextents 1
     maxextents unlimited
   );
+
+prompt
+prompt Creating table MENU
+prompt ===================
+prompt
+create table EXAMPLE_USER.MENU
+(
+  id       NUMBER not null,
+  name     VARCHAR2(30) not null,
+  url      VARCHAR2(100) not null,
+  img      VARCHAR2(100),
+  p_id     NUMBER,
+  m_number NUMBER not null
+)
+tablespace EXAMPLE_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+comment on column EXAMPLE_USER.MENU.name
+  is '菜单名';
+comment on column EXAMPLE_USER.MENU.url
+  is '地址';
+comment on column EXAMPLE_USER.MENU.img
+  is '图标地址';
+comment on column EXAMPLE_USER.MENU.p_id
+  is '子菜单id序列';
+alter table EXAMPLE_USER.MENU
+  add constraint M_PK primary key (ID)
+  using index 
+  tablespace EXAMPLE_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+alter table EXAMPLE_USER.MENU
+  add constraint M_FK foreign key (P_ID)
+  references EXAMPLE_USER.MENU (ID) on delete cascade;
+alter table EXAMPLE_USER.MENU
+  add constraint M_FK_ID foreign key (ID)
+  references EXAMPLE_USER.PERMISSION (ID) on delete cascade;
 
 prompt
 prompt Creating table ROLE
@@ -323,6 +382,64 @@ alter table EXAMPLE_USER.TIMELINE
   references EXAMPLE_USER.USERS (ID) on delete cascade;
 
 prompt
+prompt Creating table VERSION_INFO
+prompt ===========================
+prompt
+create table EXAMPLE_USER.VERSION_INFO
+(
+  id          NUMBER not null,
+  name        VARCHAR2(20),
+  code        NUMBER,
+  v_desc      VARCHAR2(1000),
+  update_time TIMESTAMP(6),
+  link        VARCHAR2(100),
+  type        VARCHAR2(30),
+  is_delete   NUMBER default 0
+)
+tablespace EXAMPLE_DATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    minextents 1
+    maxextents unlimited
+  );
+comment on column EXAMPLE_USER.VERSION_INFO.name
+  is '版本名';
+comment on column EXAMPLE_USER.VERSION_INFO.code
+  is '版本号';
+comment on column EXAMPLE_USER.VERSION_INFO.v_desc
+  is '版本描述';
+comment on column EXAMPLE_USER.VERSION_INFO.update_time
+  is '更新时间';
+comment on column EXAMPLE_USER.VERSION_INFO.link
+  is '链接';
+comment on column EXAMPLE_USER.VERSION_INFO.type
+  is '版本类型（比如：pc、app）';
+comment on column EXAMPLE_USER.VERSION_INFO.is_delete
+  is '是否删除';
+alter table EXAMPLE_USER.VERSION_INFO
+  add constraint V_PK primary key (ID)
+  using index 
+  tablespace EXAMPLE_DATA
+  pctfree 10
+  initrans 2
+  maxtrans 255;
+
+prompt
+prompt Creating sequence M_AUTO
+prompt ========================
+prompt
+create sequence EXAMPLE_USER.M_AUTO
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
 prompt Creating sequence R_AUTO
 prompt ========================
 prompt
@@ -340,7 +457,7 @@ prompt
 create sequence EXAMPLE_USER.TL_AUTO
 minvalue 1
 maxvalue 9999999999999999999999999999
-start with 41
+start with 81
 increment by 1
 cache 20;
 
@@ -354,6 +471,35 @@ maxvalue 9999999999999999999999999999
 start with 21
 increment by 1
 cache 20;
+
+prompt
+prompt Creating sequence V_AUTO
+prompt ========================
+prompt
+create sequence EXAMPLE_USER.V_AUTO
+minvalue 1
+maxvalue 9999999999999999999999999999
+start with 1
+increment by 1
+cache 20;
+
+prompt
+prompt Creating trigger M_ID_AUTO
+prompt ==========================
+prompt
+create or replace trigger example_user.m_id_auto
+  before insert
+  on MENU 
+  for each row
+declare
+  -- local variables here
+begin
+if :new.id is null 
+then
+    select m_auto.nextval into :new.id from dual;
+end if;
+end m_id_auto;
+/
 
 prompt
 prompt Creating trigger R_ID_AUTO
@@ -408,6 +554,24 @@ then
     select u_auto.nextval into :new.id from dual;
 end if;
 end u_id_auto;
+/
+
+prompt
+prompt Creating trigger V_ID_AUTO
+prompt ==========================
+prompt
+create or replace trigger example_user.v_id_auto
+  before insert
+  on VERSION_INFO 
+  for each row
+declare
+  -- local variables here
+begin
+if :new.id is null 
+then
+    select v_auto.nextval into :new.id from dual;
+end if;
+end v_id_auto;
 /
 
 

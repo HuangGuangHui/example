@@ -38,18 +38,6 @@
 	<listener>  
 	  <listener-class>com.zs.listener.PathListener</listener-class>  
 	</listener>
-	<!-- 
-	<listener>  
-	  <listener-class>com.zs.listener.SendToZmListener</listener-class>  
-	</listener>
-	<listener>  
-	  <listener-class>com.zs.listener.ObtainReportSignListener</listener-class>  
-	</listener>
-	
-	<listener>  
-	  <listener-class>com.zs.listener.KdniaoData</listener-class>  
-	</listener>
-	 -->
 	<!-- <filter>
 	    <filter-name>httpHeaderFilter</filter-name>
 	    <filter-class>com.zs.tools.MyHiddenHttpMethodFilter</filter-class>
@@ -58,7 +46,6 @@
 	    <filter-name>httpHeaderFilter</filter-name>
 	    <servlet-name>SpringMVC</servlet-name>
 	</filter-mapping> -->
-
 
 	<!-- rest请求转换器
 	<filter>
@@ -70,15 +57,6 @@
 	    <servlet-name>SpringMVC</servlet-name>
 	</filter-mapping>
 	  -->
-	
-	<!-- <filter>
-        <filter-name>HttpPutFilter</filter-name>
-        <filter-class>org.springframework.web.filter.HttpPutFormContentFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>HttpPutFilter</filter-name>
-        <servlet-name>SpringMVC</servlet-name>
-    </filter-mapping> -->
 	
 	<!-- Spring MVC servlet -->
 	<servlet>

@@ -43,6 +43,7 @@ function getToken(){
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="testCors()">测试 跨域、权限、时间轴是否生效</a>
 	<a class="easyui-linkbutton" iconCls="icon-search" onclick="getToken()">获取token</a>
 	
+	<a class="easyui-linkbutton" iconCls="icon-search" href="<%=path%>/staticView/test.jsp">本地接口测试工具</a>
 	
 	
 </body>

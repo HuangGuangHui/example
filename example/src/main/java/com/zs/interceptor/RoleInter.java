@@ -126,6 +126,8 @@ public class RoleInter extends HandlerInterceptorAdapter{
 					calendar.add(Calendar.DAY_OF_MONTH, 1);//加一天
 					lcToken.setInvalidTime(calendar.getTime());
 					licenceSer.updateToken(lcToken);
+					user.setRole(role);
+					req.setAttribute("[user]", user);
 					return true;
 				}else{
 					gotoHadle(Code.ROLE_USER_NO_PERMISSION);
